@@ -101,8 +101,8 @@ module.exports.http = {
 			profileFields: ['id','name', 'picture.width(320).height(320)']
 		}, facebookHandle));
 		passport.use(new GoogleStrategy({
-		    clientID: '336649618127-n6rr9oeiqvpllvj1s1mocqf08vkktnf8.apps.googleusercontent.com',
-		    clientSecret: 'w2tp1kev3rVQfcsoXOtmg1wI',
+		    clientID: '336649618127-i7f915jm78v911ae5gn5vboceqoq253k.apps.googleusercontent.com',
+		    clientSecret: '3PYYaRXRdIA50OnhL0VjzVf7',
 		    callbackURL: "http://yugenvn.com/login/facebook/callback"
 	  	},googleHandle));
 		passport.use(new LocalStrategy({
