@@ -103,7 +103,7 @@ module.exports.http = {
 		passport.use(new GoogleStrategy({
 		    clientID: '336649618127-i7f915jm78v911ae5gn5vboceqoq253k.apps.googleusercontent.com',
 		    clientSecret: '3PYYaRXRdIA50OnhL0VjzVf7',
-		    callbackURL: "http://yugenvn.com/login/facebook/callback"
+		    callbackURL: "http://yugenvn.com/login/google/callback"
 	  	},googleHandle));
 		passport.use(new LocalStrategy({
 		    usernameField: 'login_email',
