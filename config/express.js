@@ -95,21 +95,15 @@ passport.deserializeUser(function(id, done){
 module.exports.http = {
 	customMiddleware: function(app) {
 		passport.use(new FacebookStrategy({
-			clientID: "1508464479173801", 
-			clientSecret: "cefdd2fced45e203de7d313740bb8fdb", 
-			callbackURL: "http://localhost:1337/login/facebook/callback",
-			// clientID: "153523785223109", 
-			// clientSecret: "f2b49e02843d6fb04531eebc6bebb604", 
-			// callbackURL: "http://yugenvn.com/login/facebook/callback",
+			clientID: "153523785223109", 
+			clientSecret: "f2b49e02843d6fb04531eebc6bebb604", 
+			callbackURL: "http://yugenvn.com/login/facebook/callback",
 			profileFields: ['id','name', 'picture.width(320).height(320)']
 		}, facebookHandle));
 		passport.use(new GoogleStrategy({
-		    clientID: '511258496559-eign3di3tgdb84iv6ckv8qv55ou1l0e8.apps.googleusercontent.com',
-		    clientSecret: 'PQKGgPikobqLUIcJkal6uflO',
-		    callbackURL: "http://localhost:1337/login/google/callback"
-		    // clientID: '482879856792-beehn6o8umc7oso072cta1b3eu55sia4.apps.googleusercontent.com',
-		    // clientSecret: '0BVyCrHx7PEhmw3RA8uHoldg',
-		    // callbackURL: "http://yugenvn.com/login/google/callback"
+		    clientID: '336649618127-n6rr9oeiqvpllvj1s1mocqf08vkktnf8.apps.googleusercontent.com',
+		    clientSecret: 'w2tp1kev3rVQfcsoXOtmg1wI',
+		    callbackURL: "http://yugenvn.com/login/facebook/callback"
 	  	},googleHandle));
 		passport.use(new LocalStrategy({
 		    usernameField: 'login_email',
