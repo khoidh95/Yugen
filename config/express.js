@@ -95,8 +95,8 @@ passport.deserializeUser(function(id, done){
 module.exports.http = {
 	customMiddleware: function(app) {
 		passport.use(new FacebookStrategy({
-			clientID: "153523785223109", 
-			clientSecret: "f2b49e02843d6fb04531eebc6bebb604", 
+			clientID: "1902837660040417", 
+			clientSecret: "c0a56ec89e688eba08fbde1bb6fb4044", 
 			callbackURL: "http://yugenvn.com/login/facebook/callback",
 			profileFields: ['id','name', 'picture.width(320).height(320)']
 		}, facebookHandle));
