@@ -1,0 +1,140 @@
+<% layout('../common/index-layout.ejs') -%>
+<section id="user-profile-section">
+	<div class="row" style="margin:50px 0 10px 0">
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+		   <div class="panel panel-danger">
+		      <div class="panel-heading">
+		         <h3 class="panel-title">Profile</h3>
+		      </div>
+		      <div class="panel-body">
+		         <div class="row">
+		         	<input id="upload-img" type="file" accept=".png, .jpg, .jpeg" style="display: none" />
+		            <div class="col-md-3 col-lg-3 table-user-information-avatar" align="center">
+		            	<img class="avatar-image-root img-responsive" alt="User Pic" src="<%= user.avatar %>"> 
+		            	<div class="table-user-information-avatar-wrapper">
+		            		<div class="camera-upload-wrapper">
+		            			<i id="camera-upload" class="fa fa-camera fa-2x" aria-hidden="true"></i>
+		            		</div>
+	            		</div>
+		            	
+		            </div>
+		            <div class=" col-md-9 col-lg-9 ">
+		               <table class="table table-user-information">
+		                  <tbody>
+		                     <tr>
+		                        <td>Display Name</td>
+		                        <td>
+		                        	<div id="displayName_edit" class="form-group table-user-information-edit">
+										<div class="input-group">
+											<input type="text" class="form-control" id="displayName_input" placeholder="Amount">
+											<div id="displayName_btn_v" class="input-group-addon btn-v btn-success"><i class="fa fa-check" aria-hidden="true"></i></div>
+											<div id="displayName_btn_x" class="input-group-addon btn-x btn-danger"><i class="fa fa-times" aria-hidden="true"></i></div>
+										</div>
+									</div>
+									<span>
+										<span id="displayName_text"><%= user.displayName %></span>
+			                         	<i id="displayName_btn_edit" class="fa fa-pencil btn-edit-profile" aria-hidden="true"></i>
+			                        </span>
+		                         </td>
+		                     </tr>
+		                     <tr>
+		                        <td>ID-play</td>
+		                        <td><%= user.id %></td>
+		                     </tr>
+	                 	<% if (user.email) { %>
+			                 <tr>
+			                    <td>Email</td>
+			                    <td><%= user.email %></td>
+			                 </tr>
+	                 	<% } %>
+	                     	<!-- END -->
+		                     <tr>
+		                        <td><img src="/images/level.png" width="24" height="24"> Level</td>
+		                        <td><%= user.level %></td>
+		                     </tr>
+		                     <tr>
+		                        <td><img src="/images/rank.png" width="24" height="24"> Rank</td>
+		                        <td><%= user.rank %></td>
+		                     </tr>
+		                     <tr>
+		                        <td><img src="/images/jlpt.png" width="24" height="24"> JLPT</td>
+		                        <td><%= user.jlpt %></td>
+		                     </tr>
+		                  </tbody>
+		               </table>
+		            </div>
+		         </div>
+		         <% if(user.email){%>
+		         <button class="btn btn-primary" data-toggle="modal" data-target="#changepass_modal">Change password</button>
+		         <% } %>
+		      </div>
+		   </div>
+		</div>
+	</div>
+</section>
+<!-- Modal -->
+    <div class="modal fade" id="review_upload_img" aria-labelledby="modalLabel" role="dialog" tabindex="-1">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Create profile avatar</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <div>
+              <img id="img-in-modal" class="img-responsive" alt="avatar">
+              <canvas id="crop-canvas" width="320" height="320" style="display: none"></canvas>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="upload-btn" type="button" class="btn btn-primary" data-dismiss="modal">Upload</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+<% if(user.email){%>
+<!-- Modal -->
+<div class="modal " id="changepass_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">Change password</h4>
+			</div>
+			<div class="modal-body">
+				<form id="change_password_form">
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label>Your password</label>
+								<input type="password" name="old_password" id="old_password" class="form-control input-lg" placeholder="Your password" tabindex="3">
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label>New password</label>
+								<input type="password" name="new_password" id="new_password" class="form-control input-lg" placeholder="New Password" tabindex="3">
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label>Confirm new password</label>
+								<input type="password" name="new_confirm_password" id="new_confirm_password" class="form-control input-lg" placeholder="Confirm New Password" tabindex="4">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button id="changepass_btn" type="button" class="btn btn-primary">Change password</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<% } %>
+
+<script type="text/javascript" src="bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+<link rel="stylesheet" type="text/css" href="bower_components/cropper/dist/cropper.min.css">
+<script src="bower_components/cropper/dist/cropper.min.js"></script>
+<script src="/app/index/profile.js"></script>

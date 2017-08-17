@@ -1,0 +1,234 @@
+<% layout('../common/index-layout.ejs') -%>
+	<section id="test-section" ng-controller="testCtr">
+		<div id="hide-1" class="container">
+			<div>
+				<div ng-repeat="q in questions | startFrom:testSkip | limitTo:1">
+					<h2>
+						<label class="label label-primary text-uppercase">{{q.type}}</label>
+						<label class="label label-danger text-uppercase">{{countDown}}</label>
+					</h2>
+					<hr class="hr hr-primary" />
+					<div style="word-wrap: break-word;" class="question-game-wraper" ng-bind-html="q.content"></div>
+					<div class="row margin-bt-20">
+						<div ng-repeat="a in q.answer" class="col-xs-12 col-sm-6">
+							<div class="answer-game-item no-radius" ng-class="{'answer-one':($index == 0),'answer-two':($index == 1),'answer-three':($index == 2),'answer-four':($index == 3),'opacity-0-3':a.isNoChoice}"
+							 ng-click="submitAnswer(q.id,a.id)">
+								{{a.content}}
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="row margin-bt-20">
+							<button class="btn btn-default pull-left" style="width:80px;" ng-click="preTest()">Previous</button>
+							<button class="btn btn-default pull-right" style="width:80px;" ng-click="nextTest()">Next</button>
+							<h4>
+								<a class="label label-default lbl-center">{{testSkip+1}}/{{questions.length}}</a>
+							</h4>
+						</div>
+					</div>
+					<hr class="hr hr-primary" />
+				</div>
+				<div ng-class="{'man-che':(manche)}"></div>
+			</div>
+			<div style="padding-left:25px !important;">
+				<span ng-repeat="q in questions">
+				<button class="btn btn-default index-question-box" ng-class="{'box-choice':(q.answer[0].isNoChoice!=undefined),'box-choice-forcus animated bounce':($index==testSkip)}" ng-click="forcusQuestion($index)">{{$index + 1}}</button>
+			</span>
+			</div>
+			<div><button class="btn btn-success" ng-click="finishClick()">Finish</button></div>
+		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="test-result-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+		 data-keyboard="false" data-backdrop="static">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header modal-header-primary">
+						<h1 class="text-center">RESULT</h1>
+					</div>
+					<div class="modal-body answer-two">
+						<h1 class="text-center">Correct answer: {{mark}} / {{questions.length}}</h1>
+						<h2 ng-if="jlptUp != undefined" class="text-center">
+							Congratulation! You just passed the JLPT <label class="label label-success animated infinite tada" style="display: inline-block;">{{jlptUp}}</label>
+						</h2>
+					</div>
+					<div class="modal-footer">
+						<a href="/" class="btn btn-default pull-right">Close</a>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
+	</section>
+	<script>
+		(function () {
+			app.controller('testCtr', function ($scope, $http, $interval) {
+				$scope.questions = [];
+				$scope.questionsFlag = [];
+				$scope.testSkip = 0;
+				$scope.mark;
+				$scope.jlptUp;
+				$scope.expired;
+				$scope.now;
+				$scope.manche = false;
+				function selectQuestion(arr) {
+					for (var i = 0; i < arr.length; i++) {
+						for (var j = 0; j < $scope.questionsFlag.length; j++) {
+							if (arr[i].id == $scope.questionsFlag[j].q) {
+								for (var k = 0; k < arr[i].answer.length; k++) {
+									arr[i].answer[k].isNoChoice = true;
+									if (arr[i].answer[k].id == $scope.questionsFlag[j].a) {
+										arr[i].answer[k].isNoChoice = false;
+									}
+								}
+							}
+						}
+					}
+					return arr;
+				}
+				function countDown() {
+					// Set the date we're counting down to
+					var countDownDate = $scope.expired;
+					console.log(Date.now() - timerStart)
+					var now = $scope.now + (Date.now() - timerStart);
+					var distance = countDownDate - now;
+					// Update the count down every 1 second
+					var x = $interval(function () {
+						distance -= 1000;
+						var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+						var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+						// Display the result in the element with id="demo"
+						$scope.countDown = minutes + " : " + seconds;
+						// If the count down is finished, write some text 
+						if (distance <= 0) {
+							$scope.countDown = 'Time out!';
+							$scope.manche = true;
+							$interval.cancel(x);
+						}
+					}, 1000);
+				}
+				$scope.preTest = function () {
+					if ($scope.testSkip > 0) return $scope.testSkip--;
+					$scope.testSkip = $scope.questions.length - 1;
+				}
+				$scope.nextTest = function () {
+					if ($scope.testSkip != $scope.questions.length - 1) return $scope.testSkip++;
+					$scope.testSkip = 0;
+				}
+				$scope.forcusQuestion = function (i) {
+					$scope.testSkip = i;
+				}
+				$scope.init = function () {
+					$http.post("/test/mytest", {}, {}).then(function (res) {
+						console.log(res.data)
+						if (res.data.message == 'success') {
+							$scope.questions = res.data.questions;
+							$scope.questionsFlag = res.data.questionsFlag;
+							$scope.questions = selectQuestion($scope.questions);
+							$scope.expired = res.data.expired;
+							$scope.now = res.data.now;
+							countDown();
+						}
+					});
+				}
+				$scope.submitAnswer = function (_qid, _aid) {
+					$http.post("/test/submitanswer", { questionId: _qid, answerId: _aid }, {}).then(function (res) {
+						if (res.data.message == 'success') {
+							$scope.questionsFlag = res.data.questionsFlag;
+							$scope.questions = selectQuestion($scope.questions);
+						}
+					});
+				}
+				$scope.finish = function () {
+					$http.post("/test/finish", {}, {}).then(function (res) {
+					});
+				}
+				$scope.finishClick = function () {
+					utils.confirm({
+						title: 'Notice',
+						msg: 'Finish test?',
+						callback: function () {
+							$scope.finish();
+						}
+					});
+				}
+				$scope.init();
+				io.socket.on('finishTest', function (msg) {
+					$('#test-result-modal').modal('show');
+					$scope.mark = msg.mark;
+					$scope.jlptUp = msg.jlptUp;
+				});
+				io.socket.on('expired', function (msg) {
+					$scope.finish();
+				});
+			})
+		})();
+	</script>
+	<style>
+		#test-section {
+			padding-top: 80px;
+			background: #2B3D52;
+			min-height: 100%;
+			color: #fff;
+		}
+
+		.hr {
+			border-color: #2B3D52;
+			height: 4px;
+		}
+
+		.hr-warning {
+			background-image: -webkit-linear-gradient(left, rgba(210, 105, 30, .8), rgba(210, 105, 30, .6), rgba(0, 0, 0, 0));
+		}
+
+		.hr-success {
+			background-image: -webkit-linear-gradient(left, rgba(15, 157, 88, .8), rgba(15, 157, 88, .6), rgba(0, 0, 0, 0));
+		}
+
+		.hr-primary {
+			background-image: -webkit-linear-gradient(left, rgba(66, 133, 244, .8), rgba(66, 133, 244, .6), rgba(0, 0, 0, 0));
+		}
+
+		.hr-danger {
+			background-image: -webkit-linear-gradient(left, rgba(244, 67, 54, .8), rgba(244, 67, 54, .6), rgba(0, 0, 0, 0));
+		}
+
+		.breadcrumb {
+			background: rgba(245, 245, 245, 0);
+			border: 0px solid rgba(245, 245, 245, 1);
+			border-radius: 25px;
+			display: block;
+		}
+
+		.btn-bread {
+			margin-top: 10px;
+			font-size: 12px;
+
+			border-radius: 3px;
+		}
+
+		.index-question-box {
+			width: 51px;
+			margin-bottom: 5px;
+		}
+
+		.box-choice {
+			background: #02c39a !important;
+			color: #F0F3BD !important;
+			border-color: #05668D !important;
+		}
+
+		.box-choice-forcus {
+			border-color: #FA7921 !important;
+			border-width: 3px;
+		}
+
+		.man-che {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+		}
+	</style>

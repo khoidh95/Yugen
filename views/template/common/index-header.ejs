@@ -1,0 +1,123 @@
+<div class="mobile-nav">
+    <nav id="navbar-login" class="navbar navbar-default navbar-fixed-top navbar-login" style="height:70px">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <a class="navbar-brand" href="/" style="padding:0px 15px !important;"><img src="/images/Yugen.png" width="55" height="50"></a>
+            </div <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+                <ul id="hide-1" class="nav navbar-nav navbar-right">
+                    <li style="width: 75px;" ng-if="indexIsPlaying">
+                        <a href="/play" class="dropdown-toggle dropdow-brand-menu">
+                            <div class="pill -type-night -icon-position-left -layout-inline -center-center" style="background: #00AEEF;width:55px;">
+                                <img src="/images/playing.gif" class="img-responsive" style="width:35px;">
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-toggle dropdow-brand-menu">
+                            <div class="pill -type-night -icon-position-left -layout-inline -center-center" style="width:55px;">
+                                <div class="-layout-h -center -space-h-8">
+                                    <img src="/images/level.png" width="24" height="24">
+                                    <div class="-font-size-14">
+                                        <%= user.level%>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="page-scroll mobile-dropdow-position">
+                        <a style="cursor: pointer;" class="dropdown-toggle dropdow-brand-menu" data-toggle="dropdown">
+                           <i class="fa fa-users fa-2x" aria-hidden="true"></i> 
+                           <span  ng-show="listFriendRequest.length != 0" class="badge pull-right navbar-menu-notify">{{listFriendRequest.length}}</span>
+                       </a>
+                        <ul class="dropdown-menu overflow-y-scroll-340">
+                            <li ng-repeat="r in listFriendRequest">
+                                <div class="nav-custom row">
+                                    <div class="col-xs-4">
+                                        <img src="{{r.avatar}}" class="img-responsive">
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <span>{{r.displayName}}</span>
+                                        <div>
+                                            <span>
+                                          <img src="/images/level.png" width="24" height="24"> {{r.level}}
+                                        </span>
+                                            <span>
+                                          <img src="/images/rank.png" width="24" height="24"> {{r.rank}}
+                                        </span>
+                                            <span>
+                                          <img src="/images/jlpt.png" width="24" height="24"> {{r.jlpt}}
+                                        </span>
+                                        </div>
+                                        <div style="margin-top: 15px">
+                                            <button class="btn btn-success btn-sm" ng-click="acceptFriendRq(r.id)">Accept</button>
+                                            <button class="btn btn-danger btn-sm" ng-click="refuseFriendRq(r.id)">Refuse</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="divider"></div>
+                            </li>
+                            <li ng-if="listFriendRequest.length == 0">
+                                <div class="nav-custom">
+                                    No friend request!
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a style="cursor: pointer;" class="dropdown-toggle dropdow-brand-menu dropdow-avatar" data-toggle="dropdown">
+                           <img class="nav-avatar avatar-image-root" src="<%= user.avatar%>"/>
+                       </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <div class="nav-custom">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <p class="text-center">
+                                                <img class="dropdown-avatar avatar-image-root" src="<%= user.avatar%>" />
+                                            </p>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <p class="text-center"><strong><%= user.displayName%></strong></p>
+                                            <% if (user.email) { %>
+                                                <p class="text-center small">
+                                                    <%= user.email%>
+                                                </p>
+                                                <% } %>
+                                                    <p class="text-center">
+                                                        <a href="/profile" class="btn btn-success btn-block btn-md">My profile
+                                                </a>
+                                                    </p>
+                                                    <p class="text-center">
+                                                        <a href="/profile" class="btn btn-blue-violet btn-block btn-md menu-friend-toggle">Friend List
+                                                </a>
+                                                    </p>
+                                                    <p class="text-center">
+                                                        <a href="/bookmark" class="btn btn-warning btn-block btn-md">Bookmark
+                                                </a>
+                                                    </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="nav-custom nav-custom-session">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <p>
+                                                <a href="/logout" class="btn btn-danger btn-block">Log out <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>

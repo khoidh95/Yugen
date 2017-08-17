@@ -1,0 +1,146 @@
+<% layout('../common/index-layout.ejs') -%>
+<section id="bookmark-session" ng-controller="bookmarkCtr">
+	<div class="container">
+		<div id="hide-1" ng-show="bookmarks.length">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 bookmark-item-wrapper"  ng-repeat="b in bookmarks">
+					<div  class="white-text bookmark-item" uib-popover-template="'bookmark-detail-popup'" popover-title="Explain & Answer" popover-placement="bottom" popover-trigger="'outsideClick'">
+						<div style="word-wrap: break-word;" class="question-game-wraper">
+							<p ng-bind-html="b.questions.content"></p>
+						</div>
+						<div class="ribbon">
+						    <div>{{b.questions.jlpt}}</div>
+						</div>
+						<div class="bookmark-item-remove">
+							<button class="btn btn-danger" ng-click="removeBookmark(b.questions.id)"><i class="fa fa-times"></i></button>
+						</div>
+						<script type="text/ng-template" id="bookmark-detail-popup">
+							<div class="white-text bookmark-detail">
+								<div style="word-wrap: break-word;" class="question-game-wraper">
+									<p ng-bind-html="b.questions.explain"></p>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-6" ng-repeat="a in b.answers">
+										<div class="answer-game-item no-radius" 
+											ng-class="{'answer-one':($index == 0),'answer-two':($index == 1),'answer-three':($index == 2),'answer-four':($index == 3)}">
+											{{a.content}}
+											<i class="fa fa-2x pull-right" ng-class="{'fa-times':(a.myChoice && !a.isCorrect),'fa-check':(a.isCorrect)}"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</script>
+					</div>
+				</div>
+			</div>
+			<button class="btn btn-default pull-left" style="width:80px;" ng-click="preBookmark()">Previous</button>
+			<button class="btn btn-default pull-right" style="width:80px;" ng-click="nextBookmark()">Next</button>
+			<h4 class="text-center">
+				<label class="label label-primary">{{paggingBookmark.current + 1}}/{{paggingBookmark.pages}}</label>
+			</h4>
+		</div>
+		<div id="hide-1" ng-show="!bookmarks.length">
+			<div class="text-center white-text">Not have any bookmark</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	html{
+		background: #2B3D52;
+	}
+	#bookmark-session{
+		padding-top:80px;
+		background: #2B3D52;
+		min-height: 100%;
+	}
+	.bookmark-item{
+		background: #33485F;
+		padding: 15px;
+	}
+	.bookmark-item-wrapper {
+		margin-bottom: 15px;
+	}
+	.bookmark-item-wrapper .popover-content{
+		background: #33485F;
+	}
+	.bookmark-item-wrapper .popover{
+		max-width: 80%;
+	}
+
+	.ribbon {
+	  padding: 0 0 10px 0;
+	  position: absolute;
+	  left: 0.25em;
+	  top: -0.25em;
+	  width: 40px;
+	  font-weight: bold;
+	}
+	.ribbon div {
+	  background: #bb3a34;
+	  background: linear-gradient(#e74841 0%, #bb3a34 100%);
+	  color: #fff;
+	  padding: 0.5em 0;
+	  text-align: center;
+	  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.5);
+	}
+	.ribbon div:after {
+	  border-left: 20px solid #bb3a34;
+	  border-right: 20px solid #bb3a34;
+	  border-bottom: 10px solid transparent;
+	  bottom: 0;
+	  content: '';
+	  height: 0;
+	  left: 0;
+	  position: absolute;
+	  width: 0;
+	}
+	.bookmark-item-remove{
+		position: absolute;
+	    top: 0;
+	    right: 16px;
+	}
+</style>
+<script>
+	(function() {
+		app.controller('bookmarkCtr',function($scope, $http){
+			$scope.bookmarks = [];
+			$scope.paggingBookmark = {
+				current:0,
+				pages:0
+			}
+			$scope.getBookmark = function(){
+				$http.post("/user/bookmark",{current:$scope.paggingBookmark.current},{}).then(function(res){
+					console.log(res.data);
+	                if(res.data.message == 'success'){
+	                    $scope.bookmarks = res.data.questions;
+	                    $scope.paggingBookmark.pages = res.data.pages;
+	                    if($scope.paggingBookmark.current >= res.data.pages){
+	                    	$scope.paggingBookmark.current =  res.data.pages -1;
+	                    	$scope.getBookmark();
+	                    }
+	                }
+	            });
+			}
+			$scope.nextBookmark = function(){
+				if($scope.paggingBookmark.current >= $scope.paggingBookmark.pages - 1) return;
+				$scope.paggingBookmark.current ++;
+				$scope.getBookmark();
+			}
+			$scope.preBookmark = function(){
+				if($scope.paggingBookmark.current <= 0) return;
+				$scope.paggingBookmark.current --;
+				$scope.getBookmark();
+			}
+			$scope.removeBookmark = function(questionId){
+				$http.post("/user/bookmark/delete",{questionId:questionId},{}).then(function(res){
+					console.log(res.data);
+	                if(res.data.message == 'success'){
+	                	$scope.getBookmark();
+	                }
+	            });
+			}
+			$scope.getBookmark();
+		});
+	})();
+</script>

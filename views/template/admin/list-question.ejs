@@ -1,0 +1,104 @@
+<% layout('layout-admin') -%>
+<div ng-app="addQuestionApp" ng-controller="addQuestionCtr">
+	<div class="row magrin-bt-10"> 
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label for="comment">Original text</label>
+				<textarea class="form-control" rows="5" ng-model="ruby" ng-trim="false" disabled=""></textarea>
+			</div>
+			<script type="text/ng-template" id="ruby.html">
+				<button class="btn btn-default btn-sm" ng-click="$parent.undo()"><i class="fa fa-undo" aria-hidden="true"></i></button>
+				<button class="btn btn-default btn-sm" ng-click="$parent.clearAllHistory()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+				<button class="btn" ng-class="{'btn-default':!onDecoration,'btn-primary':onDecoration}"  ng-click="$parent.decoration()">D</button>
+				<div>
+					<div class="form-group">
+						<label for="pwd">Word above</label>
+						<input class="form-control" ng-model="$parent.rubyUp" tabindex="1">
+					</div>
+					<div class="form-group">
+						<label for="pwd">Word below</label>
+						<input class="form-control" ng-model="$parent.rubyDown" tabindex="2">
+					</div>
+					<div class="form-group">
+						<label for="pwd">Normal word</label>
+						<input class="form-control" ng-model="$parent.nomalText" ng-trim="false" tabindex="3">
+					</div>
+				</div>
+				<button class="btn btn-success" ng-click="$parent.addRuby()">Add</button>
+				<button class="btn btn-danger btn-sm" ng-click="$parent.addSpace()">Space</button>
+			</script>
+			<button class="btn btn-primary" uib-popover-template="'ruby.html'" popover-append-to-body="true"  popover-placement="right" >RubyTag <i class="fa fa-diamond" aria-hidden="true"></i></button>
+		</div>
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label>Preview text</label> 
+				<div ng-bind-html="ruby" class="wrap-ruby-html"></div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-5">
+		 	<div class="input-group">
+				<input type="text" class="form-control" ng-change="follow()" ng-model="reqObj.search.searchStr" ng-trim="false">
+				<div class="input-group-btn">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{reqObj.search.by}} <span class="caret"></span></button>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="javascript:void(0)" ng-click="reqObj.search.by='Content';">Content</a></li>
+						<li><a href="javascript:void(0)" ng-click="reqObj.search.by='Explain';">Explain</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-2">
+		 	<div class="input-group">
+				<div class="input-group-addon">JLPT</div>
+				<select class="form-control" ng-model="reqObj.search.jlpt" ng-options="option.value as option.name for option in reqObj.search.jlpts">
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-2">
+		 	<div class="input-group">
+				<div class="input-group-addon">Is Test</div>
+				<select class="form-control" ng-model="reqObj.search.isTest" ng-options="option.value as option.name for option in reqObj.search.isTests">
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-2">
+		 	<div class="input-group">
+				<div class="input-group-addon">Type</div>
+				<select class="form-control" ng-model="reqObj.search.type" ng-options="option.value as option.name for option in reqObj.search.types">
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="gridStyle" ui-grid="gridOptions" ui-grid-edit ui-grid-validate>
+		<div class="grid-msg-overlay" ng-show="loading">
+          <div class="msg">
+            <span>
+            	<img src="/images/loading-table.gif" width="300">
+            </span>
+          </div>
+        </div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<div class="form-group">
+				<div class="input-group">
+					<div class="input-group-addon">Take</div>
+					<select class="form-control" ng-model="reqObj.pagging.take" ng-options="option.value as option.name for option in reqObj.pagging.takes">
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<h4><label class="label label-primary">Current page: {{reqObj.pagging.current + 1}} of {{reqObj.pagging.pages}}</label></h4>
+		</div>
+		<div class="col-sm-6">
+			<button class="btn btn-default" ng-click="prePage()">Previous Page</button>
+			<button class="btn btn-default" ng-click="nextPage()">Next Page</button>
+		</div>
+
+	</div>
+</div>
+
+<script src="/app/admin/listQuestion.js"></script>

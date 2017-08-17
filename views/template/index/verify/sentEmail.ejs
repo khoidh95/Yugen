@@ -1,0 +1,22 @@
+<div class="mobile-nav">
+	<%- partial ('../../common/basic-header.ejs') %>
+</div>
+<section class="white-text custom-section">
+	<div class="container">
+		<center>
+			<h2>We sent an activate link to <a><%= email%></a>. Please check your mail!</h2>
+		</center>
+	</div>
+</section>
+<%- partial ('../../common/footer.ejs') %>
+<style type="text/css">
+	.custom-section{
+		padding-top: 100px;
+		height:700px;
+		padding-bottom: 40px;
+		background: url(https://getuikit.com/images/section-background.svg),linear-gradient(to left top, #28a, #1e8);
+	}
+	.navbar-login-register-li{
+		display: none !important;
+	}
+</style>

@@ -1,0 +1,398 @@
+<% layout('../common/index-layout.ejs') -%>
+	<section id="pratice-section" ng-controller="gameCtr">
+		<div id="hide-1" class="container question-game-all-wrap">
+			<div class="row">
+
+			</div>
+			<div ng-class="{'animated flipInX':(correctAnswer == undefined)}">
+				<div class="row">
+					<div class="col-xs-12" ng-init="counter=0;skip=0">
+						<div class="progress" width="20">
+							<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"
+							 style="width: {{counter/15*100}}%">
+								<div class="text-bold">{{counter}}s of {{skip}}/15 questions</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-12">
+						<div style="word-wrap: break-word;" class="question-game-wraper" ng-bind-html="question.content"></div>
+					</div>
+				</div>
+				<div class="row answer-game-wrapper margin-bt-20">
+					<div class="col-sm-3 col-md-2 xs-hide">
+						<div class="text-center text-bold" ng-class="{'animated rollIn':(correctAnswer == undefined)}">{{me_score}}</div>
+						<div ng-class="{'animated zoomInUp animate-one-3':(next_score_me > me_score),'hide':(correctAnswer == undefined || next_score_me <= me_score)}"
+						 style="position: absolute;left:0">
+							<img src="/images/correct.png" width="100" height="100" class="fa-spin">
+						</div>
+						<div><img src="<%= user.avatar%>" class="img-circle img-responsive"></div>
+						<div class="text-center _0_7em">
+							<%= user.displayName%>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-8">
+						<div class="row">
+							<div ng-repeat="a in answer | limitTo: 4" ng-class="{'animated pulse solgan-text-4':(answerChoice==a.id || answerChoice==undefined)}">
+								<div class="col-xs-12 col-sm-6 answer-game-item" ng-class="{'answer-one':($index == 0),'answer-two':($index == 1),'answer-three':($index == 2),'answer-four':($index == 3),'opacity-0-3':(answerChoice!=a.id && answerChoice!=undefined),'animated hinge':(correctAnswer != undefined &&  correctAnswer != a.id)}"
+								 ng-click="submitAnswer(a.id)">
+									{{a.content}}
+									<span ng-if="correctAnswer != undefined">
+									<i class="fa pull-right" ng-class="{'fa-check':(correctAnswer == a.id)}"></i>
+								</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3 col-md-2 xs-hide">
+						<div class="text-center text-bold" ng-class="{'animated rollIn':(correctAnswer == undefined)}">{{compatitor_score}}</div>
+						<div ng-class="{'animated zoomInUp animate-one-3':(next_score_compatitor > compatitor_score),'hide':(correctAnswer == undefined || next_score_compatitor <= compatitor_score)}"
+						 style="position: absolute;right:0">
+							<img src="/images/correct.png" width="100" height="100" class="fa-spin">
+						</div>
+						<div><img src="<%= compatitor.avatar%>" class="img-circle img-responsive"></div>
+						<div class="text-center _0_7em">
+							<%= compatitor.displayName%>
+						</div>
+					</div>
+
+				</div>
+				<div ng-if="correctAnswer != undefined">
+					<div ng-if="correctAnswer == answerChoice" class="animated tada solgan-text-2 answer-game-item dung-or-sai dung">Correct<i class="fa fa-check"></i></div>
+					<div ng-if="correctAnswer != answerChoice" class="animated tada solgan-text-2 answer-game-item dung-or-sai sai">Wrong<i class="fa fa-times" aria-hidden="true"></i></div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="game-result-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+		 data-keyboard="false" data-backdrop="static">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header modal-header-warning">
+						<h1 class="text-center">RESULT</h1>
+					</div>
+					<div class="modal-body game-review">
+						<div class="row row-eq-height margin-bt-20">
+							<div class="col-xs-4 col-sm-3">
+								<div class="text-center text-bold sm-2em solgan-text-2 animated tada">
+									<div class="text-check" ng-if="compatitor_score < me_score">
+										WINNER
+									</div>
+									<div class="text-remove" ng-if="compatitor_score > me_score">
+										LOSER
+									</div>
+									<div class="text-check" ng-if="compatitor_score == me_score">
+										DRAW
+									</div>
+								</div>
+								<img src="<%= user.avatar%>" class="img-responsive img-circle">
+								<div class="_2em text-center">
+									<%= user.displayName%>
+								</div>
+							</div>
+							<div class="col-xs-2 col-sm-3" style="position:relative; margin-top:10px">
+								<div class="char-col-green" ng-class="{'char-col-red':(me_score < compatitor_score)}" style="position: absolute;bottom: 20px;left: 0%;width: 100%;height: {{me_score*100/4500}}%"></div>
+								<div class="text-center text-bold" style="position: absolute;bottom:0;left:0;width:100%;">{{me_score}}</div>
+							</div>
+							<div class="col-xs-2 col-sm-3" style="position:relative; margin-top:10px">
+								<div class="char-col-green" ng-class="{'char-col-red':(me_score > compatitor_score)}" style="position: absolute;bottom: 20px;left: 0%;width: 100%;height: {{compatitor_score*100/4500}}%"></div>
+								<div class="text-center text-bold" style="position: absolute;bottom:0;left:0;width:100%;">{{compatitor_score}}</div>
+							</div>
+							<div class="col-xs-4 col-sm-3">
+								<div class="text-center text-bold sm-2em solgan-text-2 animated tada">
+									<div class="text-remove" ng-if="compatitor_score < me_score">
+										LOSER
+									</div>
+									<div class="text-check" ng-if="compatitor_score > me_score">
+										WINNER
+									</div>
+									<div class="text-check" ng-if="compatitor_score == me_score">
+										DRAW
+									</div>
+								</div>
+								<img src="<%= compatitor.avatar%>" class="img-responsive img-circle">
+								<div class="_2em text-center">
+									<%= compatitor.displayName%>
+								</div>
+							</div>
+						</div>
+						<div class="text-center" style="margin-bottom: 10px;">
+							<div><strong id="friend-search-result-displayName"></strong></div>
+							<div>
+								<input type="hidden" id="friend-input-game" value="<%= compatitor.id%>">
+								<button ng-if="addfriendStt==0" class="btn btn-primary" ng-click="addFriendGame(<%= compatitor.id%>)">Add friend <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+								<button class="btn btn-primary" ng-if="addfriendStt==1">Request has sended<i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+								<button class="btn btn-success" ng-click="acceptFriendGame(<%= compatitor.id%>)" ng-if="addfriendStt==2">Accept request<i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+								<button class="btn btn-danger" ng-if="addfriendStt==2" ng-click="deleteFriendGame(<%= compatitor.id%>)">Cancel request<i class="fa fa-times" aria-hidden="true"></i></button>
+								<button class="btn btn-danger" ng-if="addfriendStt==1" ng-click="deleteFriendGame(<%= compatitor.id%>)">Cancel request<i class="fa fa-times" aria-hidden="true"></i></button>
+								<button ng-if="addfriendStt==3" id="search-addFriend-btn-isFriend" class="btn btn-info">Friends<i class="fa fa-users" aria-hidden="true"></i></button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6 col-xs-offset-3 text-center">
+								<a class="btn btn-warning" data-toggle="modal" data-target="#game-review-modal">Review <i class="fa fa-wpexplorer"></i></a>
+								<a href="/" class="btn btn-success" style="width:90px">Quit <i class="fa fa-angle-right "></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
+		<!-- Modal -->
+		<div class="modal fade" id="game-review-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+		 data-keyboard="false" data-backdrop="static">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header modal-header-warning">
+						<h1 class="text-center">REVIEW</h1>
+					</div>
+					<div class="modal-body black-ground">
+						<div ng-repeat="q in questionReview | startFrom:reviewSkip | limitTo:1">
+							<div class="row">
+								<div class="col-xs-12">
+									<div style="word-wrap: break-word;" class="question-game-wraper" ng-bind-html="q.content"></div>
+								</div>
+							</div>
+							<div class="row margin-bt-20">
+								<div ng-repeat="a in q.answer" class="col-xs-12 col-sm-6">
+									<div class="answer-game-item no-radius" ng-class="{'answer-one':($index == 0),'answer-two':($index == 1),'answer-three':($index == 2),'answer-four':($index == 3)}">
+										{{a.content}}
+										<i class="fa fa-2x pull-right" ng-class="{'fa-times':(a.myChoice && !a.isCorrect),'fa-check':(a.isCorrect)}"></i>
+									</div>
+								</div>
+							</div>
+							<div class="row margin-bt-20">
+								<h1><a class="label lbl-center width-215" ng-class="{'label-default':(q.option == 'No Answer'),'label-success':(q.option == 'Correct'),'label-danger':(q.option == 'Incorrect')}">
+		            			{{q.option}}
+		            		</a></h1>
+							</div>
+							<div class="row margin-bt-20">
+								<button class="btn btn-default pull-left" style="width:80px;" ng-click="preReview()">Previous</button>
+								<button class="btn btn-default pull-right" style="width:80px;" ng-click="nextReview()">Next</button>
+								<a class="label label-default lbl-center">{{reviewSkip+1}}/{{questionReview.length}}</a>
+							</div>
+							<div class="row">
+								<a class="btn btn-warning" ng-click="createBookmark(q.id)">Bookmark <i class="fa fa-bookmark"></i></a>
+								<a class="btn btn-danger" ng-click="openReportModal(q.id, q.content)">Report <i class="fa fa-bug"></i></a>
+								<a class="btn btn-success" data-dismiss="modal">Close</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
+	</section>
+	<script>
+		(function () {
+			function findGetParameter(parameterName) {
+				var result = null,
+					tmp = [];
+				var items = location.search.substr(1).split("&");
+				for (var index = 0; index < items.length; index++) {
+					tmp = items[index].split("=");
+					if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+				}
+				return result;
+			}
+			app.controller('gameCtr', function ($scope, $http) {
+				$scope.correctAnswer = undefined;
+				$scope.answerChoice = undefined;
+				$scope.next_score_me = 0;
+				$scope.next_score_compatitor = 0;
+				$scope.compatitor_score = 0;
+				$scope.me_score = 0;
+
+				$scope.me = '';
+
+				$scope.reviewSkip = 0;
+				$scope.questionReview = [];
+
+				$scope.addfriendStt = 0;
+				$scope.friendInitGame = function () {
+					$.post("/relationship/searchfriend", { friendId: $('#friend-input-game').val().trim() }, function (data, status) {
+						console.log(data.user.status)
+						switch (data.message) {
+							case 'success':
+								if (data.user.status == 0) {
+									$scope.addfriendStt = 0;
+								}
+								else if (data.user.status == 1) {
+									if (data.user.userIs == 1) {
+										$scope.addfriendStt = 1;
+									} else {
+										$scope.addfriendStt = 2
+									}
+								}
+								else if (data.user.status == 2) {
+									if (data.user.userIs == 2) {
+										$scope.addfriendStt = 2
+									} else {
+										$scope.addfriendStt = 2
+									}
+								} else {
+									$scope.addfriendStt = 3
+								}
+
+								break;
+						}
+					});
+				}
+				$scope.friendInitGame();
+				$scope.addFriendGame = function (id) {
+					io.socket.post('/relationship/addfriend', { friendId: id }, function (data, jwres) {
+						switch (data.message) {
+							case 'have_error':
+								setTimeout(function () {
+									utils.alert({
+										title: 'Warning',
+										msg: 'Something happened. We cant send your request'
+									});
+								}, 500);
+								break;
+							case 'success':
+								$scope.addfriendStt = 1;
+								break;
+						}
+					});
+				}
+				$scope.deleteFriendGame = function (id) {
+					$.post('/relationship/deletefriend', { friendId: id }, function (data, status) {
+						switch (data.message) {
+							case 'have_error':
+								setTimeout(function () {
+									utils.alert({
+										title: 'Warning',
+										msg: 'Something happened. We cant send your request'
+									});
+								}, 500);
+								break;
+							case 'success':
+								$scope.addfriendStt = 0;
+								break;
+						}
+					});
+				}
+				$scope.acceptFriendGame = function (id) {
+					$.post('/relationship/acceptfriend', { friendId: id }, function (data, status) {
+						switch (data.message) {
+							case 'have_error':
+								setTimeout(function () {
+									utils.alert({
+										title: 'Warning',
+										msg: 'Something happened. We cant send your request'
+									});
+								}, 500);
+								break;
+							case 'success':
+								$scope.addfriendStt = 3;
+								break;
+						}
+					});
+				}
+
+
+				$scope.nextReview = function () {
+					if ($scope.reviewSkip != $scope.questionReview.length - 1) $scope.reviewSkip++;
+					console.log($scope.reviewSkip)
+				}
+				$scope.preReview = function () {
+					if ($scope.reviewSkip != 0) $scope.reviewSkip--;
+					console.log($scope.reviewSkip)
+				}
+				$scope.makeGame = function () {
+					io.socket.post('/game/playgame', { code: findGetParameter('code') }, function responseFromServer(body, res) {
+
+					});
+				}
+				$scope.submitAnswer = function (answerId) {
+					if ($scope.answerChoice != undefined || $scope.correctAnswer != undefined) return;
+					$scope.answerChoice = answerId;
+					io.socket.post('/game/gameanswer', { answerId: answerId }, function responseFromServer(body, res) {
+					});
+				}
+				$scope.makeGame();
+				$scope.init = function () {
+					setTimeout(function () {
+						if ($scope.question == undefined) {
+							io.socket.post('/game/gameinit', function responseFromServer(body, res) {
+							});
+						}
+					}, 2000)
+				}
+				$scope.init();
+				$scope.ghepReview = function (game, question) {
+					for (var i = 0; i < game.length; i++) {
+						for (var j = 0; j < question.length; j++) {
+							if (game[i].id == question[j].id) {
+								for (var k = 0; k < question[j].answer.length; k++) {
+									if (game[i][$scope.me] === false) {
+										question[j].option = 'No Answer';
+										break;
+									}
+									if (question[j].answer[k].id == game[i][$scope.me]) {
+										question[j].answer[k].myChoice = true;
+										if (question[j].answer[k].isCorrect) {
+											question[j].option = 'Correct';
+										} else {
+											question[j].option = 'Incorrect';
+										}
+									}
+								}
+							}
+						}
+					}
+					$scope.questionReview = question;
+				}
+				io.socket.on('receiveQuestion', function (msg) {
+					console.log(msg)
+					if (msg.gameReview) {
+						$scope.me = msg.me;
+
+						$scope.correctAnswer = msg.correct.id;
+						$scope.me_score = msg.me_score;
+						$scope.compatitor_score = msg.compatitor_score;
+						$scope.ghepReview(msg.gameReview, msg.reviewQuestion);
+						setTimeout(function () {
+							$('#game-result-modal').modal('show');
+						}, 8000);
+						$scope.$apply();
+						return;
+					}
+					if (!msg.correct) {
+						$scope.answerChoice = undefined;
+						$scope.question = msg.question;
+						$scope.answer = msg.answer;
+						$scope.compatitor_score = msg.compatitor_score;
+						$scope.me_score = msg.me_score;
+						$scope.$apply();
+						return;
+					}
+					$scope.correctAnswer = msg.correct.id;
+					$scope.next_score_me = msg.me_score;
+					$scope.next_score_compatitor = msg.compatitor_score;
+					$scope.$apply();
+					setTimeout(function () {
+						$scope.correctAnswer = undefined;
+						$scope.answerChoice = undefined;
+						$scope.question = msg.question;
+						$scope.answer = msg.answer;
+						$scope.compatitor_score = msg.compatitor_score;
+						$scope.me_score = msg.me_score;
+						$scope.$apply();
+					}, 5000);
+					$scope.$apply();
+				});
+				io.socket.on('counterTime', function (msg) {
+					$scope.counter = msg.counter;
+					$scope.skip = msg.skip;
+					$scope.sk
+					$scope.$apply();
+				});
+			});
+		})();
+	</script>

@@ -1,0 +1,118 @@
+<!-- Sidebar -->
+<div id="sidebar-wrapper">
+    <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+            <a>
+                Start Bootstrap
+            </a>
+        </li>
+        <li style="padding-top: 10px;">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#search-friend-modal"><i style="display:initial" class="fa fa-search"></i></button>
+            <button class="btn btn-danger menu-friend-toggle"><i class="fa fa-times" aria-hidden="true"></i></button>
+        </li>
+        <li>
+            <strong>Friend List</strong>
+        </li>
+        <li ng-repeat="f in listFriendOnline" uib-popover-template="'popoFriendOnline'" popover-append-to-body="true" popover-title="{{f.displayName}}" popover-placement="bottom" popover-trigger="'outsideClick'">
+            <div class="list-friend-row">
+                
+                <img src="{{f.avatar}}" width="30" height="30">
+                <span>{{f.displayName}}</span>
+                <img class="online-icon" src="/images/online.png" width="8" height="8" >
+            </div>
+            <script type="text/ng-template" id="popoFriendOnline">
+                <div>
+                    <span class="relative-inline">
+                        <img src="{{f.avatar}}" width="50" height="50" />
+                        <span class="label label-success absolute-left-bottom-opa">Online</span>
+                    </span>
+                    <span>
+                        <img src="/images/level.png" width="24" height="24"> {{f.level}}
+                    </span>
+                    <span>
+                        <img src="/images/rank.png" width="24" height="24"> {{f.rank}}
+                    </span>
+                    <span>
+			            <img src="/images/jlpt.png" width="24" height="24"> {{f.jlpt}}
+					</span>	
+                    <div style="margin-top:10px">
+                        <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#choose-friend-game-box-modal" ng-click="invite.id = f.id"><i class="fa fa-gamepad fa-2x" aria-hidden="true"></i></button>
+                        <button class="btn btn-danger btn-sm" ng-click="deleteFriendRq(f.id, f.displayName)"><i class="fa fa-user-times fa-2x" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </script>
+        </li>
+        <li ng-repeat="f in listFriendOffline" uib-popover-template="'popoFriendOffline'" popover-append-to-body="true" popover-title="{{f.displayName}}" popover-placement="bottom" popover-trigger="'outsideClick'">
+            <div class="list-friend-row">         
+                <img src="{{f.avatar}}" width="30" height="30">
+                <span>{{f.displayName}}</span>
+                <img class="online-icon" src="/images/offline.png" width="8" height="8">
+            </div>
+            <script type="text/ng-template" id="popoFriendOffline">
+                <div>
+                    <span class="relative-inline">
+                        <span class="label label-default absolute-left-bottom-opa">Offline</span>
+                        <img src="{{f.avatar}}" width="50" height="50" />
+                    </span>
+                    <span>
+                        <img src="/images/level.png" width="24" height="24"> {{f.level}}
+                    </span>
+                    <span>
+                        <img src="/images/rank.png" width="24" height="24"> {{f.rank}}
+                    </span>
+                    <span>
+			            <img src="/images/jlpt.png" width="24" height="24"> {{f.jlpt}}
+					</span>	
+                    <div style="margin-top:10px">
+                        <button class="btn btn-danger btn-sm" ng-click="deleteFriendRq(f.id, f.displayName)"><i class="fa fa-user-times fa-2x" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </script>
+        </li>
+    </ul>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="search-friend-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Search a friend</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>ID-Play of your friend</label>
+                    <input type="text" id="search-friend-input" class="form-control input-lg" placeholder="Friend ID">
+                </div>
+                <div id="friend-search-result" class="row" style="display: none">
+                    <hr>
+                    <div class="col-xs-5">
+                        <img id="friend-search-result-avatar" src="" class="img-responsive">
+                    </div>
+                    <div class="col-xs-7">
+                        <div><strong id="friend-search-result-displayName"></strong></div>
+                        <div>
+                            <button id="search-addFriend-btn" class="btn btn-primary">Add friend <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                            <button id="search-addFriend-btn-seen" class="btn btn-primary">Request sent <i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+                            <button id="search-addFriend-btn-accept" class="btn btn-success">Accept request<i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+                            <button id="search-addFriend-btn-destroy" class="btn btn-danger">Cancel request <i class="fa fa-times" aria-hidden="true"></i></button>
+                            <button id="search-addFriend-btn-isFriend" class="btn btn-info">Friends <i class="fa fa-users" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="friend-search-result-notfound" class="row" style="display: none">
+                    <hr>
+                    <div class="col-xs-12">
+                        <p class="text-center">Not found...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="search-friend-btn" type="button" class="btn btn-primary">Search <i class="fa fa-search"></i></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- <div><img src="/images/level.png" width="24" height="24">19 <img src="/images/coin.svg" width="24" height="24">230</div> -->

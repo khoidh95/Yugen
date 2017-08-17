@@ -1,0 +1,26 @@
+<% layout('../../layout.ejs') -%>
+
+<script src="/bower_components/angular/angular.js"></script>
+<script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+<script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="/bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+<script src="/app/index/index.js"></script>
+<div  ng-app="indexApp" ng-controller="indexCtr" style="height: 100%">
+    <%- partial ('../common/index-header.ejs') %>
+    <%- partial ('../common/index-sidebar.ejs') %>
+    <%- partial ('../common/index-game-modal.ejs') %>
+    <%- partial ('../common/index-report-modal.ejs') %>
+    
+	<div id="hide-1" class="accept-play-with-friend-wrapper" ng-show="invite.sender.length>0">
+		<div class="accept-play-with-friend" ng-repeat="u in invite.sender">
+			<div >{{u.displayName}}&ensp;<i class="fa fa-gamepad" aria-hidden="true">&ensp;</i> want to play with you</div>
+			<div>
+				<button class="btn btn-primary btn-xs" ng-click="acceptRequestPlayWithFriend(u.id, $index)"><i class="fa fa-check"></i></button>
+				<button class="btn btn-danger btn-xs" ng-click="cancelRequestPlayWithFriend(u.id)"><i class="fa fa-times"></i></button>
+			</div>
+		</div>
+	</div>
+    <div id="page-content-wrapper">
+    	<%- body%>
+    </div>
+</div>

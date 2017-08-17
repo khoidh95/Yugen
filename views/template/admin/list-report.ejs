@@ -1,0 +1,65 @@
+<% layout('layout-admin') -%>
+<div ng-app="listReportApp" ng-controller="listReportCtr">
+	<div class="row">
+		<div class="col-sm-2">
+		 	<a class="btn btn-default" ng-click="reload()"><i class="fa fa-repeat"></i></a>
+		</div>
+		<div class="col-sm-offset-1 col-sm-2">
+		 	<div class="input-group">
+				<div class="input-group-addon">Resolve</div>
+				<select class="form-control" ng-model="reqObj.search.resolve" ng-options="option.value as option.name for option in reqObj.search.resolves">
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-2">
+		 	<div class="input-group">
+				<div class="input-group-addon">JLPT</div>
+				<select class="form-control" ng-model="reqObj.search.jlpt" ng-options="option.value as option.name for option in reqObj.search.jlpts">
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-2">
+		 	<div class="input-group">
+				<div class="input-group-addon">Is Test</div>
+				<select class="form-control" ng-model="reqObj.search.isTest" ng-options="option.value as option.name for option in reqObj.search.isTests">
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-2">
+		 	<div class="input-group">
+				<div class="input-group-addon">Type</div>
+				<select class="form-control" ng-model="reqObj.search.type" ng-options="option.value as option.name for option in reqObj.search.types">
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="gridStyle" ui-grid="gridOptions" ui-grid-edit ui-grid-validate>
+		<div class="grid-msg-overlay" ng-show="loading">
+          <div class="msg">
+            <span>
+            	<img src="/images/loading-table.gif" width="300">
+            </span>
+          </div>
+        </div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<div class="form-group">
+				<div class="input-group">
+					<div class="input-group-addon">Take</div>
+					<select class="form-control" ng-model="reqObj.pagging.take" ng-options="option.value as option.name for option in reqObj.pagging.takes">
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<h4><label class="label label-primary">Current page: {{reqObj.pagging.current + 1}} of {{reqObj.pagging.pages}}</label></h4>
+		</div>
+		<div class="col-sm-6">
+			<button class="btn btn-default" ng-click="prePage()">Previous Page</button>
+			<button class="btn btn-default" ng-click="nextPage()">Next Page</button>
+		</div>
+	</div>	
+</div>
+
+<script src="/app/admin/listReport.js"></script>

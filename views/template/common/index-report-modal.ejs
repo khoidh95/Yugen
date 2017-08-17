@@ -1,0 +1,27 @@
+<!-- Modal -->
+	<div class="modal fade" id="report-create-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 9999 !important;">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header modal-header-danger">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h1>Report</h1>
+	            </div>
+	            <div class="modal-body">
+	            	<div class="row">
+	            		<div class="col-xs-12">
+	            			<div class="question-game-wraper">
+	            				<div ng-bind-html="report.questionContent"></div>
+	            			</div>
+	            		</div>
+	            		<div class="col-xs-12">
+	            			<textarea class="form-control" rows="5" ng-model="report.content"></textarea>
+	            		</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancle</button>
+	                <button id="practice-box-modal-play-btn" type="button" class="btn btn-primary pull-right" ng-click="createReport()"><i class="fa fa-send-o" aria-hidden="true"></i> Send</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->

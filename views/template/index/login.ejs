@@ -1,0 +1,221 @@
+<div class="mobile-nav">
+	 <nav id="navbar-login" class="navbar navbar-default navbar-fixed-top navbar-login"style="background-color:transparent;"> 
+	    <div class="container">
+	        <!-- Brand and toggle get grouped for better mobile display -->
+	        <div class="navbar-header page-scroll">
+	            <a class="navbar-brand" href="/login" style="padding:0px 15px !important;"><img src="images/Yugen.png" width="55" height="50"></a>
+	        </div>
+	        <!-- Collect the nav links, forms, and other content for toggling -->
+	        <div class="collapse navbar-collapse">
+	            <ul class="nav navbar-nav navbar-right">
+	                <li class="page-scroll">
+	                    <a class="change-to-login">Login</a>
+	                </li>
+	                <li class="page-scroll">
+	                    <a class="change-to-register">Register</a>
+	                </li>
+	            </ul>
+	        </div>
+	        <!-- /.navbar-collapse -->
+	    </div>
+	    <!-- /.container-fluid -->
+	</nav>
+</div>
+<section id="login-section">
+    <div class="container" >
+    	<div class="register-panel">
+	    	<div class="row">
+			    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3 pt-60">
+					<form id="signupForm" method="post" action="/user">
+						<h2 class="white-text">Please Sign Up <small class="white-text">It's free and always will be.</small></h2>
+						<hr class="colorgraph">
+						<div class="form-group">
+							<input type="text" name="email" id="email" class="form-control input-lg" placeholder="Email Address" tabindex="1">
+						</div>
+						<div class="form-group">
+							<input type="text" name="displayName" id="displayName" class="form-control input-lg" placeholder="Display Name" tabindex="2">
+						</div>
+						<div class="row">
+							<div class="col-xs-12 col-sm-6 col-md-6">
+								<div class="form-group">
+									<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" tabindex="3">
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-6 col-md-6">
+								<div class="form-group">
+									<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-lg" placeholder="Confirm Password" tabindex="4">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-4 col-sm-3 col-md-3">
+								 <div class="checkbox">
+						            <label style="font-size: 1.5em;padding:0">
+						                <input type="checkbox" id="agree" name="agree" value="1">
+						                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+						                	<span class="white-text">Agree</span>
+						            </label>
+						        </div>
+							</div>
+							<div class="col-xs-8 col-sm-9 col-md-9 white-text">
+								 By clicking <strong class="label label-primary">Register</strong>, you agree to the <a class="label label-success" data-toggle="modal" data-target="#t_and_c_m">Terms and Conditions</a> set out by this site, including our Cookie Use.
+							</div>
+						</div>
+						
+						<hr class="colorgraph">
+						<div class="row">
+							<div class="col-xs-6"><a class="btn btn-default btn-block btn-lg change-to-login">Login</a></div>
+							<div class="col-xs-6"><input type="submit" value="Register" class="btn btn-success btn-block btn-lg"></div>
+						</div>
+						<center><h4 class="white-text">OR</h4></center>
+                		<div class="row">
+							<div class="col-xs-6" style="padding-right:0;">
+								<a href="/login/facebook" class="btn btn-primary social-login-btn social-facebook"><i class="fa fa-facebook"></i></a>
+							</div>
+							<div class="col-xs-6" style="padding-left:0;">
+								<a href="/login/google" class="btn  btn-primary social-login-btn social-google"><i class="fa fa-google-plus"></i></a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+    	</div>
+    	<div class="login-panel">
+	    	<div class="row">
+			    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3 pt-60">
+					<form id="signinForm" method="post" action="/login/local">
+						<h2 class="white-text">Please Sign In <small class="white-text">It's free and always will be.</small></h2>
+						<hr class="colorgraph">
+						<div class="form-group">
+							<input type="text" name="login_email" id="login_email" class="form-control input-lg" placeholder="Email Address" tabindex="1">
+						</div>
+						<div class="form-group">
+							<input type="password" name="login_password" id="login_password" class="form-control input-lg" placeholder="Password" tabindex="4">
+						</div>
+						<div>
+							<div class="checkbox">
+						            <label style="font-size: 1.5em;padding:0">
+						                <input type="checkbox" id="remember" name="remember" value="1">
+						                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+						                	<span class="white-text">Remember</span>
+						            </label>
+					        </div>
+						</div>
+						<div>
+							<a href="javascript:void(0)" class="white-text" data-toggle="modal" data-target="#forgot_password_modal">Forgot Password</a>
+						</div>
+						<hr class="colorgraph">
+						<div class="row">
+							<div class="col-xs-6"><input type="submit" value="Login" class="btn btn-success btn-block btn-lg"></div>
+							<div class="col-xs-6"><a class="btn btn-default btn-block btn-lg change-to-register">Register</a></div>
+						</div>
+						<center><h4 class="white-text">OR</h4></center>
+                		<div class="row">
+							<div class="col-xs-6" style="padding-right:0;">
+								<a href="/login/facebook" class="btn btn-primary social-login-btn social-facebook"><i class="fa fa-facebook"></i></a>
+							</div>
+							<div class="col-xs-6" style="padding-left:0;">
+								<a href="/login/google" class="btn  btn-primary social-login-btn social-google"><i class="fa fa-google-plus"></i></a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+    	</div>
+    </div>
+</section>
+<section id="intro-session">
+	<%- partial ('../common/intro-mode.ejs') %>
+</section>
+<!-- Modal -->
+<div class="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">Terms & Conditions</h4>
+			</div>
+			<div class="modal-body">
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+				<p>Day la Terms & Conditions</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">I Agree</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal send active-->
+<div class="modal fade" id="active_send_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">Send other activate link</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12 col-sm-6 col-md-6">
+						<div class="form-group">
+							<label>Email</label>
+							<input type="text" name="active_email" id="active_email" class="form-control input-lg" placeholder="Email" tabindex="3">
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-6">
+						<div class="form-group">
+							<label>Password</label>
+							<input type="password" name="active_password" id="active_password" class="form-control input-lg" placeholder="Confirm Password" tabindex="4">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="active_send_btn" class="btn btn-primary" data-dismiss="modal">Send</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal send active-->
+<div class="modal fade" id="forgot_password_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">Forgot Password</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12 col-sm-6 col-md-6">
+						<div class="form-inline">
+							<div class="form-group">
+								<label for="forgot_password_email">Email</label>
+								<input type="text" class="form-control" id="forgot_password_email" placeholder="Your email">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="forgot_send_btn" class="btn btn-primary" data-dismiss="modal">Send a link restart password</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<%- partial ('../common/footer.ejs') %>
+<script type="text/javascript" src="/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+<script type="text/javascript" src="app/index/login.js"></script>

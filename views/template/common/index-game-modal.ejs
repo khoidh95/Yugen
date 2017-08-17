@@ -1,0 +1,444 @@
+
+	<!-- Modal -->
+	<div class="modal fade" id="practice-box-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header modal-header-primary">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h1>Practice</h1>
+	            </div>
+	            <div class="modal-body">
+	            	<div class="row">
+	            		<div class="col-xs-6">
+	            			<label>JLPT</label>
+	            			<select class="form-control" id="practice-box-modal-jlpt">
+								<option value="N1" >N1</option>
+								<option value="N2" >N2</option>
+								<option value="N3" >N3</option>
+								<option value="N4" >N4</option>
+								<option value="N5" selected>N5</option>
+							</select>
+	            		</div>
+	            		<div class="col-xs-6">
+	            			<label>TYPE</label>
+	            			<select class="form-control" id="practice-box-modal-type">
+								<option value="grammar">Grammar</option>
+								<option value="kanji">Kanji</option>
+								<option value="vocabulary" selected>Vocabulary</option>
+							</select>
+	            		</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+	                <button id="practice-box-modal-play-btn" type="button" class="btn btn-primary pull-right"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Go</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<!-- Modal -->
+	<div class="modal" id="rank-request-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header modal-header-warning text-bold">
+	                <h1>Found a match</h1>
+	            </div>
+	            <div class="modal-body rank-loading text-center">
+	            	<div class="row row-eq-height">
+	            		<div class="col-xs-5">
+	            			<h4 class="text-center">{{rankQueue.me.displayName}}</h4>
+	            			<div><img src="{{rankQueue.me.avatar}}" class="img-responsive"></div>
+	            			<div>
+		                    	<span>
+			                        <img src="/images/level.png" width="24" height="24"> {{rankQueue.me.level}}
+			                    </span>
+			                    <span>
+			                        <img src="/images/rank.png" width="24" height="24"> {{rankQueue.me.rank}}
+								</span>
+								<span>
+			                        <img src="/images/jlpt.png" width="24" height="24"> {{rankQueue.me.jlpt}}
+								</span>						
+		                    </div>
+	            		</div>
+	            		<div class="col-xs-2">
+	            			<h2 class="animated infinite tada text-bold">Vs</h2>
+	            		</div>
+	            		<div class="col-xs-5">
+	            			<h4>{{rankQueue.compatitor.displayName}}</h4>
+	            			<div><img src="{{rankQueue.compatitor.avatar}}" class="img-responsive"></div>
+	            			<div>
+		                    	<span>
+			                        <img src="/images/level.png" width="24" height="24"> {{rankQueue.compatitor.level}}
+			                    </span>
+			                    <span>
+			                        <img src="/images/rank.png" width="24" height="24"> {{rankQueue.compatitor.rank}}
+								</span>
+								<span>
+			                        <img src="/images/jlpt.png" width="24" height="24"> {{rankQueue.me.jlpt}}
+								</span>	
+		                    </div>
+	            		</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal" ng-click="cancelRank();">Cancel</button>
+	                <button type="button" class="btn btn-primary pull-right" ng-click="joinGame()"><i class="fa fa-arrow-circle-right"></i> Go</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<!-- Modal -->
+	<div class="modal fade" id="friend-game-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	    <div class="modal-dialog modal-lg">
+	        <div class="modal-content">
+	            <div class="modal-header modal-header-primary">
+	                <h1>Play with friend</h1>
+	            </div>
+	            <div class="modal-body">
+	            	<div class="row">
+	            		<div class="col-xs-12 col-sm-4" ng-if="listFriendOnline!=0">
+	            			<h3 class="text-center">Online Friend</h3>
+	            			<div class="friend-invite-game-wrapper">
+	            				<div ng-repeat="f in listFriendOnline" class="friend-invite-game">
+		            				<div class="row" style="margin-top:5px">
+		            					<div class="col-xs-4 col-sm-5 relative-inline">
+		            						<img src="{{f.avatar}}" class="img-responsive" />
+				                        	<span class="label label-success absolute-left-bottom-opa left-15">Online</span>
+		            					</div>
+				                        <div class="col-xs-8 col-sm-7">
+				                        	<div>{{f.displayName}}</div>
+				                        	<div>
+				                        		<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#choose-friend-game-box-modal" ng-click="invite.id = f.id">
+				                        			<i class="fa fa-gamepad fa-2x" aria-hidden="true"></i>
+				                        		</button>
+				                        	</div>
+				                        </div>
+				                    </div>
+				                    <div style="margin-top:10px">
+				                    	<span>
+					                        <img src="/images/level.png" width="24" height="24"> {{f.level}}
+					                    </span>
+					                    <span>
+					                        <img src="/images/rank.png" width="24" height="24"> {{f.rank}}
+										</span>
+										<span>
+			                        		<img src="/images/jlpt.png" width="24" height="24"> {{f.jlpt}}
+										</span>	
+				                    </div>
+		            			</div>
+	            			</div>
+	            		</div>
+    					<div class="col-xs-12 col-sm-4 text-center" ng-if="listFriendOnline==0">
+    						No one online...
+    					</div>
+    					<div class="col-xs-12 col-sm-8 text-center" ng-if="history_friend.data.length > 0">
+    						<h3>Game with friend history</h3>
+    						<div class="history-wrapper">
+    							<table class="table table-condensed table-td-h100px" style="margin-bottom:0 !important">
+									<tr ng-repeat="h in history_friend.data">
+										<td style="vertical-align: bottom">
+											<img src="{{h.me.avatar}}" width="50">
+											<div>{{h.me.displayName}}</div>
+										</td>
+										<td style="vertical-align: bottom">
+					            			<div class="char-col-green" ng-class="{'char-col-red':(h.me.score < h.compatitor.score),'char-col-green':(h.me.score == h.compatitor.score)}" style="height: {{h.me.score*100/4500}}%"></div>
+					            			<div class="text-center text-bold">{{h.me.score}}</div>
+										</td>
+										<td style="vertical-align: bottom">
+											<div class="text-check text-bold" ng-if="h.me.score > h.compatitor.score">
+					            				WIN
+					            			</div>
+					            			<div class="text-remove text-bold" ng-if="h.me.score < h.compatitor.score">
+					            				LOSE
+					            			</div>
+					            			<div class="text-bold" ng-if="h.me.score == h.compatitor.score">
+					            				DRAW
+					            			</div>
+										</td>
+										<td style="vertical-align: bottom">
+											<div class="char-col-green" ng-class="{'char-col-red':(h.me.score > h.compatitor.score),'char-col-green':(h.me.score == h.compatitor.score)}" style="height: {{h.compatitor.score*100/4500}}%"></div>
+					            			<div class="text-center text-bold">{{h.compatitor.score}}</div>
+										</td>
+										<td style="vertical-align: bottom">
+											<img src="{{h.compatitor.avatar}}" width="50">
+											<div>{{h.compatitor.displayName}}</div>
+										</td>
+									</tr>
+								</table>
+    						</div>
+    						<div>
+    							<button class="btn btn-default pull-left" ng-click="preFriendHistory()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+    							<button class="btn btn-default pull-right" ng-click="nextFriendHistory()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+    							<h4>
+    								<label class="label label-primary">{{history_friend.current+1}}/{{history_friend.pages}}</label>
+    							</h4>
+    						</div>
+    					</div>
+    					<div class="col-xs-12 col-sm-8 text-center" ng-if="history_friend.data.length == 0">
+							Haven't played yet...
+    					</div>
+	            	</div>       	
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<!-- Modal -->
+	<div class="modal fade" id="friend-invite-success-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	    <div class="modal-dialog modal-lg">
+	        <div class="modal-content">
+	            <div class="modal-header modal-header-warning">
+	                <h1>You are waiting for playing with friend</h1>
+	            </div>
+	            <div class="modal-body">
+	            	<div class="row">
+	            		<div class="col-xs-12">
+	            			<img src="/images/loading-table.gif" style="width: 100%;">
+	            		</div>
+	            	</div>    	
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default pull-left" ng-click="playWithFriendCancel()">Cancel</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<!-- Modal -->
+	<div class="modal fade" id="rank-history-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	    <div class="modal-dialog modal-lg">
+	        <div class="modal-content">
+	            <div class="modal-header modal-header-primary">
+	                <h1>Leaderboard & Rank History</h1>
+	            </div>
+	            <div class="modal-body">
+	            	<div class="row">
+	            		<div class="col-xs-12 col-sm-4">
+	            			<h3 class="text-center">Top 10</h3>
+	            			<div class="overflow-y-300">
+		            			<table class="table table-condensed table-td-h100px">
+			            			<tr ng-repeat="t in top10">
+			            				<td style="vertical-align: middle">
+			            					<div ng-if="t.rank == 1"><img src="/images/cup1.png" width="70" height="70" class="tada animated solgan-text-2"></div>
+			            					<div ng-if="t.rank == 2"><img src="/images/cup2.png" width="70" height="70"></div>
+			            					<div ng-if="t.rank == 3"><img src="/images/cup3.png" width="70" height="70"></div>
+			            					<div ng-if="t.rank == 4"><img src="/images/cup4.png" width="60" height="60"></div>
+			            					<div ng-if="t.rank == 5"><img src="/images/cup5.png" width="60" height="60"></div>
+			            					<div ng-if="t.rank == 6"><img src="/images/cup6.png" width="60" height="60"></div>
+			            					<div ng-if="t.rank == 7"><img src="/images/cup7.png" width="60" height="60"></div>
+			            					<div ng-if="t.rank == 8"><img src="/images/cup3.png" width="60" height="60"></div>
+			            					<div ng-if="t.rank == 9"><img src="/images/cup9.png" width="60" height="60"></div>
+			            					<div ng-if="t.rank == 10"><img src="/images/cup10.png" width="60" height="60"></div>
+			            				</td>
+			            				<td style="vertical-align: middle"><img src="{{t.avatar}}" width="50" height="50"></td>
+			            				<td style="vertical-align: middle">
+			            					<div>{{t.displayName}}</div>
+			            					<div>
+			            						<span>
+							                        <img src="/images/level.png" width="24" height="24"> {{t.level}}
+												</span>
+												<span>
+							                    	<img src="/images/jlpt.png" width="24" height="24"> {{t.jlpt}}
+							                    </span>
+			            					</div>
+			            				</td>
+			            			</tr>
+		            			</table>
+	            			</div>
+	            		</div>
+    					<div class="col-xs-12 col-sm-8 text-center" ng-if="history_rank.data.length > 0">
+    						<h3>Rank history</h3>
+    						<div class="history-wrapper">
+    							<table class="table table-condensed table-td-h100px" style="margin-bottom:0 !important">
+									<tr ng-repeat="h in history_rank.data">
+										<td style="vertical-align: bottom">
+											<img src="{{h.me.avatar}}" width="50">
+											<div>{{h.me.displayName}}</div>
+										</td>
+										<td style="vertical-align: bottom">
+					            			<div class="char-col-green" ng-class="{'char-col-red':(h.me.score < h.compatitor.score),'char-col-green':(h.me.score == h.compatitor.score)}" style="height: {{h.me.score*100/4500}}%"></div>
+					            			<div class="text-center text-bold">{{h.me.score}}</div>
+										</td>
+										<td style="vertical-align: bottom">
+											<div class="text-check text-bold" ng-if="h.me.score > h.compatitor.score">
+					            				WIN
+					            			</div>
+					            			<div class="text-remove text-bold" ng-if="h.me.score < h.compatitor.score">
+					            				LOSE
+					            			</div>
+					            			<div class="text-bold" ng-if="h.me.score == h.compatitor.score">
+					            				DRAW
+					            			</div>
+										</td style="vertical-align: bottom">
+										<td style="vertical-align: bottom">
+											<div class="char-col-green" ng-class="{'char-col-red':(h.me.score > h.compatitor.score),'char-col-green':(h.me.score == h.compatitor.score)}" style="height: {{h.compatitor.score*100/4500}}%"></div>
+					            			<div class="text-center text-bold">{{h.compatitor.score}}</div>
+										</td>
+										<td style="vertical-align: bottom">
+											<img src="{{h.compatitor.avatar}}" width="50">
+											<div>{{h.compatitor.displayName}}</div>
+										</td>
+									</tr>
+								</table>
+    						</div>
+    						<div>
+    							<button class="btn btn-default pull-left" ng-click="preRankHistory()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+    							<button class="btn btn-default pull-right" ng-click="nextRankHistory()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+    							<h4>
+    								<label class="label label-primary">{{history_rank.current+1}}/{{history_rank.pages}}</label>
+    							</h4>
+    						</div>
+    					</div>
+    					<div class="col-xs-12 col-sm-8 text-center" ng-if="history_rank.data.length == 0">
+							Haven't played yet...
+    					</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<!-- Modal -->
+	<div class="modal fade" id="test-history-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+	    <div class="modal-dialog modal-lg">
+	        <div class="modal-content">
+	            <div class="modal-header modal-header-primary">
+	                <h1>Test History</h1>
+	            </div>
+	            <div class="modal-body">
+	            	<div class="row">
+    					<div class="col-xs-12 text-center" ng-if="history_test.data.length > 0">
+    						<div class="history-wrapper">
+    							<table class="table table-condensed table-td-h100px">
+									<tr ng-repeat="h in history_test.data">
+										<td>
+											<div>Start time : {{h.createdAt | date:"dd/MM/yyyy 'at' h:mma"}}</div>
+											<div>Correct: {{h.mark}}/60</div>
+											<div>JLPT: {{h.jlpt}}</div>
+											<h1 ng-if="h.mark >= 40" class="mg-10">
+												<label class="label label-success">Pass</label>
+											</h1>
+											<h1 ng-if="h.mark < 40" class="mg-10">
+											<label class="label label-danger">Not Pass</label>
+											</h1>
+										</td>
+									</tr>
+								</table>
+    						</div>
+    						<div>
+    							<button class="btn btn-default pull-left" ng-click="preTestHistory()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+    							<button class="btn btn-default pull-right" ng-click="nextTestHistory()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+    							<h4>
+    								<label class="label label-primary">{{history_test.current+1}}/{{history_test.pages}}</label>
+    							</h4>
+    						</div>
+    					</div>
+    					<div class="col-xs-12 text-center" ng-if="history_test.data.length == 0">
+							Haven't tested yet...
+    					</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancel</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<!-- Modal -->
+	<div class="modal fade" id="test-box-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header modal-header-primary">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h1>Test</h1>
+	            </div>
+	            <div class="modal-body">
+	            	<div class="row">
+	            		<div class="col-xs-6">
+	            			<label>JLPT</label>
+	            			<select class="form-control" id="practice-box-modal-jlpt" ng-model="test.jlpt">
+								<option value="N1" >N1</option>
+								<option value="N2" >N2</option>
+								<option value="N3" >N3</option>
+								<option value="N4" >N4</option>
+								<option value="N5" selected>N5</option>
+							</select>
+	            		</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+	                <button id="practice-box-modal-play-btn" type="button" class="btn btn-primary pull-right" ng-click="createTest()"><i class="fa fa-arrow-circle-right"></i> Go</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="choose-friend-game-box-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header modal-header-primary">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h1>Choose friend game options</h1>
+	            </div>
+	            <div class="modal-body">
+	            	<div class="row">
+	            		<div class="col-xs-6">
+	            			<label>JLPT</label>
+	            			<select class="form-control" ng-model="invite.jlpt">
+								<option value="N1" >N1</option>
+								<option value="N2" >N2</option>
+								<option value="N3" >N3</option>
+								<option value="N4" >N4</option>
+								<option value="N5" >N5</option>
+								<option value="ALL" >ALL</option>
+							</select>
+	            		</div>
+	            		<div class="col-xs-6">
+	            			<label>TYPE</label>
+	            			<select class="form-control" ng-model="invite.type">
+								<option value="grammar">Grammar</option>
+								<option value="kanji">Kanji</option>
+								<option value="vocabulary">Vocabulary</option>
+								<option value="ALL" >ALL</option>
+							</select>
+	            		</div>
+	            	</div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+	                <button id="practice-box-modal-play-btn" type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="playWithFriendRequest()"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i> Go</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<style type="text/css">
+		.table-td-h100px td{
+			height: 100px;
+		}
+		.history-wrapper{
+			overflow-y:scroll;
+			background: #33485F;
+			max-height: 300px;
+			color: #fff;
+			font-weight: bold;
+		}
+		.char-col-white{
+			background: #fff !important;
+			border-bottom: 4px solid #fff;
+			border-radius: 4%;
+		}
+		.overflow-y-300{
+			overflow-y: scroll;
+			max-height: 300px; 
+		}
+		.rank-loading{
+			background-size: cover;
+    		background-image: url('/images/loading-rank.gif');
+    		color: #fff !important;
+		}
+	</style>

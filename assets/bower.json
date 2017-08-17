@@ -1,0 +1,26 @@
+{
+  "name": "yugen",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "boostrap#^3.3.7",
+    "font-awesome": "^4.7.0",
+    "jquery-validation": "^1.16.0",
+    "purl": "^2.3.1",
+    "blueimp-file-upload": "jQuery-File-Upload#^9.18.0",
+    "cropper": "^2.3.4",
+    "angular": "^1.6.4",
+    "angular-bootstrap": "^2.5.0",
+    "angular-ui-grid": "^4.0.6",
+    "angular-sanitize": "^1.6.4"
+  }
+}

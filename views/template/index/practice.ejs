@@ -1,0 +1,57 @@
+<% layout('../common/index-layout.ejs') -%>
+<section id="pratice-section" ng-controller="practiceCtr">
+	<div id="hide-1" class="container question-game-all-wrap">
+		<!-- <div class="row">
+			
+		</div> -->
+		<div ng-class="{'animated bounceInLeft':!loading}">			
+			<div class="row">
+				<div class="col-xs-2 col-xs-offset-10 margin-bt-5">
+					<a class="btn btn-warning pull-right" href="/"><i class="fa fa-undo" aria-hidden="true"></i> Quit</a>
+				</div>
+				<div class="col-xs-12">
+					<div style="word-wrap: break-word;" class="question-game-wraper" ng-bind-html="question.content"></div>
+				</div>
+			</div>
+			<div class="row answer-game-wrapper margin-bt-20">
+				<div ng-repeat="a in question.answer | limitTo: 4" class="animated pulse solgan-text-4">
+					<div class="col-xs-12 col-sm-5 col-md-4 answer-game-item" 
+						ng-class="{'answer-one':($index == 0),'answer-two':($index == 1),'answer-three':($index == 2),'answer-four':($index == 3),'col-sm-offset-2 col-md-offset-4':($index == 1 || $index ==3), 'animated hinge':(correctAnswer != undefined &&  correctAnswer != a.id)}"
+						ng-click="getAnswer(a.id)"> 
+						{{a.content}} 
+						<span ng-if="correctAnswer != undefined">
+							<i class="fa pull-right" ng-class="{'fa-check':(correctAnswer == a.id)}"></i>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div ng-if="correctAnswer != undefined">
+				<div ng-if="correctAnswer == answerChoice" class="animated tada solgan-text-2 answer-game-item dung-or-sai dung">Correct <i class="fa fa-check" aria-hidden="true"></i></div>
+				<div ng-if="correctAnswer != answerChoice" class="answer-game-item dung-or-sai sai">Wrong <i class="fa fa-times" aria-hidden="true"></i></div>
+			</div>
+			<div class="magin-t-20" ng-if="correctAnswer != undefined">
+				<button style = "width:82px;" class="btn btn-success btn-sm pull-right" ng-click="next()">Next <i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+				<button style = "width:82px;" class="btn btn-primary btn-sm pull-right" data-toggle="modal" href="#explain-modal">Explain <i class="fa fa-wpexplorer" aria-hidden="true"></i></button>
+				<button style = "width:82px;" class="btn btn-danger btn-sm pull-right" ng-click="openReportModal(question.id, question.content)">Report <i class="fa fa-bug"></i></button>
+				<button style = "width:82px;" class="btn btn-warning btn-sm pull-right" ng-click="createBookmark(question.id)">Bookmark <i class="fa fa-bookmark-o"></i></button>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+	<div  class="modal fade" id="explain-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div  class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header modal-header-primary">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h1>Why?</h1>
+	            </div>
+	            <div class="modal-body explain-modal-body">
+            		<div ng-bind-html="question.explain"></div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</section>
+<script type="text/javascript" src="/app/index/practice.js"></script>

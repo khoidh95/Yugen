@@ -1,0 +1,111 @@
+<% layout('../common/index-layout.ejs') -%>
+<!-- <script src="/app/index/index.js"></script> -->
+<style>
+	.abc{
+    background: url(https://getuikit.com/images/section-background.svg),linear-gradient(to left top, #28a, #1e8);
+	}
+	</style>
+<section id="index-gamebox-section" class="abc">
+	<div id="hide-1" ng-show="isWaitingRank">
+		<div class="waiting-rank-box">Waiting a rank... <i class="cancel-rank-btn fa fa-2x fa-times pull-right" ng-click="cancelRank()"></i></div>
+	</div>
+	<div class="container" style="padding-top:50px">
+		<div class="row margin-bt-20">
+			<div class="col-sm-6 game-box-wraper" href="#practice-box-modal" data-toggle="modal" style="margin-bottom:15px">
+				<div class="game-box-header-wrapper header-wrapper-practice">
+					<div class="row">
+						<div class="col-xs-0 col-sm-3 padding-r-0 game-box-mode-icon-wrapper">
+							<img src="/images/modes/interview.svg" class="game-box-mode-icon">
+						</div>
+						<div class="col-xs-12 col-sm-9">
+							<div class="game-box-header">
+								<h2 class="-bold">Practice</h2>
+								<div class="game-box-hr"></div>
+								<div>Prepare for technical interviews using real interview questions from top companie</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="game-box-footer">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 game-box-wraper">
+				<div class="game-box-header-wrapper header-wrapper-rank" ng-click="requestRank()">
+					<div class="row">
+						<div class="col-xs-0 col-sm-3 padding-r-0 game-box-mode-icon-wrapper">
+							<img src="/images/modes/tournament.svg" class="game-box-mode-icon">
+						</div>
+						<div class="col-xs-12 col-sm-9">
+							<div class="game-box-header">
+								<h2 class="-bold">Rank</h2>
+								<div class="game-box-hr"></div>
+								<div>Prepare for technical interviews using real interview questions from top companie</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="game-box-footer">
+						<div><button class="btn btn-primary" href="#rank-history-modal" data-toggle="modal" ng-click="loadHistoryRank()">Leaderboard & History</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 game-box-wraper" data-toggle="modal" data-target="#friend-game-modal" ng-click="loadFriendHistory()" style="margin-bottom:15px">
+				<div class="game-box-header-wrapper header-wrapper-friendgame">
+					<div class="row">
+						<div class="col-xs-0 col-sm-3 padding-r-0 game-box-mode-icon-wrapper">
+							<img src="/images/modes/head2head.svg" class="game-box-mode-icon">
+						</div>
+						<div class="col-xs-12 col-sm-9">
+							<div class="game-box-header">
+								<h2 class="-bold">Play with friend</h2>
+								<div class="game-box-hr"></div>
+								<div>Prepare for technical interviews using real interview questions from top companie</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="game-box-footer">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6 game-box-wraper" style="margin-bottom:15px">
+				<div class="game-box-header-wrapper header-wrapper-test" data-toggle="modal" data-target="#test-box-modal">
+					<div class="row">
+						<div class="col-xs-0 col-sm-3 padding-r-0 game-box-mode-icon-wrapper">
+							<img src="/images/modes/arcade.svg" class="game-box-mode-icon">
+						</div>
+						<div class="col-xs-12 col-sm-9">
+							<div class="game-box-header">
+								<h2 class="-bold">Test</h2>
+								<div class="game-box-hr"></div>
+								<div>Prepare for technical interviews using real interview questions from top companie</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="game-box-footer">
+						<div><button class="btn btn-primary" href="#test-history-modal" data-toggle="modal" ng-click="loadHistoryTest()">Test History</button></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<script>
+(function() {
+	// XU LY DON GIAN CHO THANG PRACTICE
+	$('#practice-box-modal-play-btn').click(function(){
+		var url = window.location.origin + '/practice/' + $('#practice-box-modal-jlpt').val() + '/' + 
+			$('#practice-box-modal-type').val();
+		window.location.href = url;
+	});
+})();
+</script>
+
