@@ -4,8 +4,8 @@ var mail = require('../services/sendMail.js');
 
 var verifyMail ={
 	mailOptions:{
-	    from: 'Yugen 👻', // sender address
-	    subject: 'Verify Yugen ✔', // Subject line
+	    from: 'yugenvn@gmail.com', // sender address
+	    subject: 'Verify Yugen', // Subject line
 	    text: 'Hello world ?', // plain text body
 	},
 	templateUrl:require('path').join(__dirname, '../../views/template/index/email/forgot-password'),
