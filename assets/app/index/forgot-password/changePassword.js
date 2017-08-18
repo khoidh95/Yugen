@@ -28,7 +28,7 @@ $( document ).ready( function () {
         if($.url().param('login_message') == 'account_not_active'){
             utils.alert({
                 title:'Error',
-                msg: "Your email isn't activated!"
+                msg: "Your email is not activated yet!"
             })
         }
         if($.url().param('login_message') == 'password_not_correct'){
