@@ -18,7 +18,7 @@ sendVerify: function(user, cb) {
 	verifyMail.mailOptions.to = user.email;
 	verifyMail.render = {
 		displayName: user.displayName,
-		linkVerify: 'http://localhost:1337/verify?verifycode=' + hash,
+		linkVerify: 'http://yugenvn.com/verify?verifycode=' + hash,
 	}
 	mail.sendMail(verifyMail, function(err){
 		if(err)	return cb(err);

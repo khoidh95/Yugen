@@ -18,7 +18,7 @@ module.exports = {
 		verifyMail.mailOptions.to = user.email;
 		verifyMail.render = {
 			displayName: user.displayName,
-			linkForgot: 'http://localhost:1337/forgot?code=' + hash,
+			linkForgot: 'http://yugenvn.com/forgot?code=' + hash,
 		}
 		mail.sendMail(verifyMail, function(err){
 			if(err)	return cb(err);
