@@ -447,8 +447,10 @@ module.exports = {
 				var curQuesRoom = sails.config.globals._1vs1['room' + game.id].game.length - 1;
 				if(game.user_one == req.session.passport.user){
 					sails.config.globals._1vs1['room' + game.id].game[curQuesRoom].u1 = req.body.answerId;
+					sails.sockets.broadcast('play-' + game.user_one, 'syncAns',{answerId:req.body.answerId});
 				}else{
 					sails.config.globals._1vs1['room' + game.id].game[curQuesRoom].u2 = req.body.answerId;
+					sails.sockets.broadcast('play-' + game.user_two, 'syncAns',{answerId:req.body.answerId});
 				}
 
 				if(!ans){
@@ -478,8 +480,7 @@ module.exports = {
 						Game.update({id:game.id},{user_two_score:game.user_two_score + 150, user_one_score: user_one_score})
 							.exec(function(err, update){});
 					}
-				}
-				
+				}		
 			})
 		});
 	},
@@ -503,13 +504,17 @@ module.exports = {
 						if(ques.length == 0) return res.json({message:'have_err'});
 						socRQ.makePlay(req, function(){
 							if(req.session.passport.user == game.user_one){
+								var curQuesRoom = sails.config.globals._1vs1['room' + game.id].game.length - 1;
+								var answerChoice = sails.config.globals._1vs1['room' + game.id].game[curQuesRoom].u1;
 								sails.sockets.broadcast('play-' + req.session.passport.user, 'receiveQuestion',
 								{question: ques, answer: ans, me_score:game.user_one_score,
-								compatitor_score:game.user_two_score});
+								compatitor_score:game.user_two_score, answerChoice:answerChoice});
 							}else if(req.session.passport.user == game.user_two){
+								var curQuesRoom = sails.config.globals._1vs1['room' + game.id].game.length - 1;
+								var answerChoice = sails.config.globals._1vs1['room' + game.id].game[curQuesRoom].u2;
 								sails.sockets.broadcast('play-' + req.session.passport.user, 'receiveQuestion',
 								{question: ques, answer: ans, me_score:game.user_two_score,
-								compatitor_score:game.user_one_score});
+								compatitor_score:game.user_one_score, answerChoice:answerChoice});
 							}
 			    		});
 					})

@@ -42,7 +42,8 @@ module.exports = {
 		    		//NEU THANG DO ONLINE THI GUI INFO CUA MINH
 		    		User.query(query.myProfile(req.session.passport.user), [], function(err, data){
 		    			if(err) return res.json({message:'have_err'});
-		    			// GUI DEN CAC SOCKET CUA THANG MINH YEU CAU KET BAN
+						// GUI DEN CAC SOCKET CUA THANG MINH YEU CAU KET BAN
+						data[0].level=countLevel(data[0].level);
 		    			sails.sockets.broadcast(listSocketFriend, 'friendRequest', data[0]);
 		    			return res.json({message:'success'});
 		    		});

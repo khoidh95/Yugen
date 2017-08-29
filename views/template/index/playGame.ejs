@@ -237,7 +237,7 @@
 								} else {
 									$scope.addfriendStt = 3
 								}
-
+								$scope.$apply();
 								break;
 						}
 					});
@@ -369,6 +369,9 @@
 						$scope.answer = msg.answer;
 						$scope.compatitor_score = msg.compatitor_score;
 						$scope.me_score = msg.me_score;
+						if (msg.answerChoice) {		
+							$scope.answerChoice = msg.answerChoice		
+						}
 						$scope.$apply();
 						return;
 					}
@@ -390,8 +393,10 @@
 				io.socket.on('counterTime', function (msg) {
 					$scope.counter = msg.counter;
 					$scope.skip = msg.skip;
-					$scope.sk
 					$scope.$apply();
+				});
+				io.socket.on('syncAns', function (msg) {
+					$scope.answerChoice = msg.answerId;
 				});
 			});
 		})();
