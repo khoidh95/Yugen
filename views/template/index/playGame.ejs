@@ -120,7 +120,7 @@
 							<div>
 								<input type="hidden" id="friend-input-game" value="<%= compatitor.id%>">
 								<button ng-if="addfriendStt==0" class="btn btn-primary" ng-click="addFriendGame(<%= compatitor.id%>)">Add friend <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-								<button class="btn btn-primary" ng-if="addfriendStt==1">Request has sended<i class="fa fa-check-square-o" aria-hidden="true"></i></button>
+								<button class="btn btn-primary" ng-if="addfriendStt==1">Request sent<i class="fa fa-check-square-o" aria-hidden="true"></i></button>
 								<button class="btn btn-success" ng-click="acceptFriendGame(<%= compatitor.id%>)" ng-if="addfriendStt==2">Accept request<i class="fa fa-check-square-o" aria-hidden="true"></i></button>
 								<button class="btn btn-danger" ng-if="addfriendStt==2" ng-click="deleteFriendGame(<%= compatitor.id%>)">Cancel request<i class="fa fa-times" aria-hidden="true"></i></button>
 								<button class="btn btn-danger" ng-if="addfriendStt==1" ng-click="deleteFriendGame(<%= compatitor.id%>)">Cancel request<i class="fa fa-times" aria-hidden="true"></i></button>
@@ -254,8 +254,10 @@
 									});
 								}, 500);
 								break;
+								$scope.$apply();
 							case 'success':
 								$scope.addfriendStt = 1;
+								$scope.$apply();
 								break;
 						}
 					});
@@ -271,8 +273,10 @@
 									});
 								}, 500);
 								break;
+								$scope.$apply();
 							case 'success':
 								$scope.addfriendStt = 0;
+								$scope.$apply();
 								break;
 						}
 					});
@@ -288,13 +292,14 @@
 									});
 								}, 500);
 								break;
+								$scope.$apply();
 							case 'success':
 								$scope.addfriendStt = 3;
+								$scope.$apply();
 								break;
 						}
 					});
 				}
-
 
 				$scope.nextReview = function () {
 					if ($scope.reviewSkip != $scope.questionReview.length - 1) $scope.reviewSkip++;
