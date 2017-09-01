@@ -406,16 +406,16 @@ module.exports = {
 					    	});
 				    	}
     				}
-    				if(counter >= 0 && counter <=20){
+    				if(counter >= 0 && counter <=35){
     					if(counter == 0 && skip == 0){
-    						counter = 15;
+    						counter = 30;
     					}
-    					if(counter <= 15){
+    					if(counter <= 30){
 	    					sails.sockets.broadcast('play-' + id1, 'counterTime',{counter:counter, skip:skip});
 							sails.sockets.broadcast('play-' + id2, 'counterTime',{counter:counter, skip:skip});
 						}
     				}else{
-    					counter = 20;
+    					counter = 35;
     				}
     				counter--;
 			    }, 1000);
